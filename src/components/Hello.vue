@@ -11,32 +11,29 @@
             <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
         </ul>
         <h2>Ecosystem</h2>
-        <ul draggable='true' @dragstart="ondragstart" @dragend="end" class="test" ref="test">
-
-        </ul>
+        <div draggable='true' class="test" ref="test">
+        </div>
     </div>
 </template>
 
 <script>
+  import {Drag} from '../util/drag'
   export default {
     name: 'hello',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        msg: 'Welcome to Your Vue.js App',
+        drag: null
       }
     },
-    methods: {
-      ondragstart: function (event) {
-        event.dataTransfer.setData('Text', event)
-        console.log(event)
-      },
-      end: function (event) {
-        console.log(event, '松开鼠标')
-        event.preventDefault()
-        event.target.style.left = event.clientX + 'px'
-        event.target.style.top = event.clientY + 'px'
+    mounted: function () {
+      if (!this.drag) {
+        this.drag = new Drag(this.$refs.test)
+        this.drag.init()
+        console.log(this.drag)
       }
-    }
+    },
+    methods: {}
   }
 </script>
 
@@ -61,10 +58,10 @@
     }
 
     .test {
-        display: block;
+        position: absolute;
+        display: inline-block;
         height: 100px;
         width: 100px;
-        position: absolute;
         background-color: #eee;
     }
 </style>
